@@ -6,6 +6,7 @@ import { LoginResponse } from '../dto/req/login-response.dto';
 import { TokenPairDto } from '../dto/res/token-pair.dto';
 import { CommandBus } from '@nestjs/cqrs';
 import { CreateUserCommand } from '../../application/commands/create-user.command';
+import { LoginUserQuery } from '../../application/queries/login-user.query';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -16,8 +17,11 @@ export class UserResolver {
     return await this.commandBus.execute(command);
   }
 
-  @Mutation(() => LoginResponse)
-  async login(loginInput: LoginInput) {}
+  @Mutation(() => TokenPairDto)
+  async login(@Args('input') loginInput: LoginInput): Promise<TokenPairDto> {
+    const query = new LoginUserQuery(loginInput.email, loginInput.password);
+    return await this.commandBus.execute(query);
+  }
 
   @Mutation(() => Boolean)
   async deleteAccount(@Args('id') id: string): Promise<boolean> {
@@ -25,12 +29,5 @@ export class UserResolver {
   }
 
   @Query(() => User)
-  async user(@Args('id') id: string): Promise<User> {
-    return {
-      password: 'test',
-      nickname: 'Test',
-      email: 'test@test.com',
-      id: 'test',
-    };
-  }
+  async user(@Args('id') id: string) {}
 }

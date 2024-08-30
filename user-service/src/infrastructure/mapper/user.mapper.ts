@@ -15,3 +15,11 @@ export class CreateUserMapper {
     };
   }
 }
+
+export class UserMapper {
+  static toDomain(user: User): UserModel {
+    return {
+      ...user,
+    };
+  }
+}

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateUserMapper } from '../mapper/user.mapper';
+import { CreateUserMapper, UserMapper } from '../mapper/user.mapper';
 import { CreateUserDto } from '../../presentation/dto/req/create-user.dto';
 import { User } from '../../domain/model/user.model';
 
@@ -8,11 +8,18 @@ import { User } from '../../domain/model/user.model';
 export class UserRepository {
   constructor(private readonly prismaService: PrismaService) {}
   async createAccount(user: CreateUserDto): Promise<User> {
-    //return await this.prismaService.user.create( );
     const userEntity = CreateUserMapper.toPersistence(user);
-    const getUser = await this.prismaService.user.create({
+    const createUser = await this.prismaService.user.create({
       data: userEntity,
     });
-    return CreateUserMapper.toDomain(getUser);
+    return CreateUserMapper.toDomain(createUser);
+  }
+
+  async findAccountByEmail(email: string): Promise<User | null> {
+    const getUser = await this.prismaService.user.findUnique({
+      where: { email },
+    });
+    if (!getUser) return null;
+    return UserMapper.toDomain(getUser);
   }
 }

@@ -10,7 +10,10 @@ export const ERROR_MAP: Record<ErrorCode, ErrorResponse> = {
     statusCode: HttpStatus.FORBIDDEN,
     message: '접근 권한이 없습니다.',
   },
-
+  [ErrorCode.SIGN_EMAIL_CONFLICTED]: {
+    statusCode: HttpStatus.FORBIDDEN,
+    message: '회원가입에 요청한 이메일이 이미 존재합니다.',
+  },
   [ErrorCode.TOKEN_EXPIRED]: {
     message: '토큰이 만료되었습니다.',
     statusCode: HttpStatus.UNAUTHORIZED,
