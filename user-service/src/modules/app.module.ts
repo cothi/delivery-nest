@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/apollo';
 import { UserModule } from './user.module';
+import { GraphQLExceptionFilter } from '../utils/filters/exception.filter';
 
 @Module({
   imports: [
@@ -19,6 +20,11 @@ import { UserModule } from './user.module';
     UserModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: 'APP_FILTER',
+      useClass: GraphQLExceptionFilter,
+    },
+  ],
 })
 export class AppModule {}

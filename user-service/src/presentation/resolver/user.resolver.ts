@@ -3,7 +3,6 @@ import { CreateUserDto } from '../dto/req/create-user.dto';
 import { User } from '../../domain/model/user.model';
 import { LoginInput } from '../dto/req/login.dto';
 import { LoginResponse } from '../dto/req/login-response.dto';
-import { UserService } from '../../application/services/user.service';
 import { TokenPairDto } from '../dto/res/token-pair.dto';
 import { CommandBus } from '@nestjs/cqrs';
 import { CreateUserCommand } from '../../application/commands/create-user.command';

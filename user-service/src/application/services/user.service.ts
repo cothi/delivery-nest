@@ -9,9 +9,6 @@ export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
   async signUp(createUser: CreateUserDto): Promise<User> {
     const user = await this.userRepository.createAccount(createUser);
-    if (!user) {
-      throw new Error('안되');
-    }
     return user;
   }
   async deleteAccount(userId: string) {}
