@@ -22,4 +22,16 @@ export class UserRepository {
     if (!getUser) return null;
     return UserMapper.toDomain(getUser);
   }
+  async findAccountByUserId(userId: string): Promise<User | null> {
+    const getUser = await this.prismaService.user.findUnique({
+      where: { id: userId },
+    });
+    return UserMapper.toDomain(getUser);
+  }
+
+  async deleteAccount(userId: string): Promise<void> {
+    await this.prismaService.user.delete({
+      where: { id: userId },
+    });
+  }
 }

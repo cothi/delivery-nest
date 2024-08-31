@@ -25,5 +25,11 @@ export class UserService {
     return user;
   }
 
-  async deleteAccount(userId: string) {}
+  async deleteAccount(userId: string): Promise<void> {
+    const user = await this.userRepository.findAccountByUserId(userId);
+    if (!user) {
+      throw errorFactory(ErrorCode.NOT_FOUND);
+    }
+    return await this.userRepository.deleteAccount(userId);
+  }
 }

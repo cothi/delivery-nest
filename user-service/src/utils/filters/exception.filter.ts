@@ -1,13 +1,13 @@
-import {ArgumentsHost, Catch, HttpException} from '@nestjs/common';
-import {GqlArgumentsHost, GqlExceptionFilter} from '@nestjs/graphql';
-import {ErrorCode} from '../exception/enums/error-code.enum';
-import {errorFactory} from '../exception/error-factory';
-import {GraphQLError} from 'graphql';
-import {ConfigService} from "@nestjs/config";
+import { ArgumentsHost, Catch, HttpException } from '@nestjs/common';
+import { GqlArgumentsHost, GqlExceptionFilter } from '@nestjs/graphql';
+import { ErrorCode } from '../exception/enums/error-code.enum';
+import { errorFactory } from '../exception/error-factory';
+import { GraphQLError } from 'graphql';
+import { ConfigService } from '@nestjs/config';
 
 @Catch()
 export class GraphQLExceptionFilter implements GqlExceptionFilter {
-  constructor(private readonly configService: ConfigService) { }
+  constructor(private readonly configService: ConfigService) {}
   catch(exception: any, host: ArgumentsHost) {
     let status: any;
     let message: string;
