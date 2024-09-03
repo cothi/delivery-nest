@@ -16,7 +16,7 @@ export class MenuItemRepository {
     return MenuItemMapper.toDomain(menuItem);
   }
 
-  async updateMenuItem(cmd: UpdateMenuItemCmd) {
+  async updateMenuItem(cmd: UpdateMenuItemCmd): Promise<MenuItemModel> {
     const entity = MenuItemMapper.UpdateToPersistence(cmd);
     const menuItem = await this.prismaService.menu_item.update({
       where: {
@@ -24,9 +24,11 @@ export class MenuItemRepository {
       },
       data: entity,
     });
+
+    return MenuItemMapper.toDomain(menuItem);
   }
 
-  async getMenuItem(id: string): Promise<MenuItemModel> {
+  async getMenuItemById(id: string): Promise<MenuItemModel> {
     const menuItem = await this.prismaService.menu_item.findUnique({
       where: {
         id: id,
