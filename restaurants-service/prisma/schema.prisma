@@ -47,7 +47,7 @@ model menu_item {
   menuCategoryId String
   name           String
   price          Float
-  decription     String
+  description    String
   mainPhotoUrl   String
   restaurant     restaurant    @relation(fields: [restaurantId], references: [id])
   restaurantId   String
