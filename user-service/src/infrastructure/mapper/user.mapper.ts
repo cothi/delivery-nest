@@ -1,4 +1,4 @@
-import { PrismaClient, User } from '@prisma/client';
+import { PrismaClient, user as User } from '@prisma/client';
 import { CreateUserDto } from '../../presentation/dto/req/create-user.dto';
 import { User as UserModel } from '../../domain/model/user.model';
 

@@ -1,7 +1,8 @@
 import { restaurant } from '@prisma/client';
-import { Field } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { RestaurantParams } from './interface/restaurant-params.interface';
 
+@ObjectType()
 export class RestaurantModel implements restaurant {
   @Field()
   id: string;

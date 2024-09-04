@@ -20,7 +20,7 @@ export class RestaurantService {
   async getRestaurants(query: GetRestaurantsQuery): Promise<RestaurantModel[]> {
     const { take, pageSize, page } = query;
     const size: number = take > 20 ? 20 : take;
-    const skip: number = pageSize * page;
+    const skip: number = pageSize * page - 1;
     return await this.restaurantRepository.getListRestaurants(skip, size);
   }
 }

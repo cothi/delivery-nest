@@ -42,4 +42,18 @@ export class MenuCategoryRepository {
       });
     return MenuCategoryMapper.toDomain(menuCategoryEntity);
   }
+
+  async getListCategories(
+    skip: number,
+    pageSize: number,
+  ): Promise<MenuCategoryModel[]> {
+    const categories = await this.prismaService.menu_category.findMany({
+      skip,
+      take: pageSize,
+      orderBy: { name: 'desc' },
+    });
+    return categories.map(categoriey =>
+      MenuCategoryMapper.toDomain(categoriey),
+    );
+  }
 }

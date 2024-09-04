@@ -19,7 +19,7 @@ import { GatewayErrorFormatter } from './utils/error/format/gateway-error-format
         supergraphSdl: new IntrospectAndCompose({
           subgraphs: [
             //{ name: 'orders', url: 'http://localhost:3001/graphql' },
-            //{ name: 'restaurants', url: 'http://restaurant-service:3002/graphql' },
+            { name: 'restaurants', url: 'http://localhost:3003/graphql' },
             //{ name: 'deliveries', url: 'http://delivery-service:3003/graphql' },
             { name: 'users', url: 'http://localhost:3002/graphql' },
           ],

@@ -1,8 +1,13 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/apollo';
+import {
+  ApolloFederationDriver,
+  ApolloFederationDriverConfig,
+} from '@nestjs/apollo';
 import { DatabaseModule } from '../infrastructure/prisma/database.module';
 import { ConfigModule } from '@nestjs/config';
+import { RestaurantModule } from './restaurant.module';
+import { MenuCategoryModule } from './menu-category.module';
 
 @Module({
   imports: [
@@ -15,6 +20,8 @@ import { ConfigModule } from '@nestjs/config';
       isGlobal: true,
       envFilePath: '.env',
     }),
+    RestaurantModule,
+    MenuCategoryModule,
   ],
   controllers: [],
   providers: [],

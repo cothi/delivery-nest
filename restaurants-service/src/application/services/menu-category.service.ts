@@ -3,6 +3,7 @@ import { MenuCategoryRepository } from '../../infrastructure/persistence/menu-ca
 import { CreateMenuCategoryCmd } from '../commands/create-menu-category.command';
 import { MenuCategoryModel } from '../../domain/model/menu-category.model';
 import { UpdateMenuCategoryCmd } from '../commands/update-menu-catetory.command';
+import { GetMenuCategoriesQuery } from '../queries/get-menu-categories.query';
 
 @Injectable()
 export class MenuCategoryService {
@@ -24,5 +25,13 @@ export class MenuCategoryService {
 
   async getMenuCategoryById(id: string): Promise<MenuCategoryModel> {
     return await this.menuCategoryRepository.getMenuCategoryById(id);
+  }
+  async getMenuCategories(
+    query: GetMenuCategoriesQuery,
+  ): Promise<MenuCategoryModel[]> {
+    const { take, pageSize, page } = query;
+    const size: number = take > 20 ? 20 : take;
+    const skip: number = page * size - 1;
+    return await this.menuCategoryRepository.getListCategories(skip, pageSize);
   }
 }

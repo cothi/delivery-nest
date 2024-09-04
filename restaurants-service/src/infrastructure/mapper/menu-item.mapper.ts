@@ -39,7 +39,7 @@ export class MenuItemMapper {
       mainPhotoUrl,
       description,
     } = entity;
-    return MenuItemModel.create(
+    return MenuItemModel.create({
       id,
       mainPhotoUrl,
       menuCategoryId,
@@ -47,6 +47,6 @@ export class MenuItemMapper {
       name,
       price,
       description,
-    );
+    });
   }
 }
