@@ -24,7 +24,7 @@ export class MenuItemService {
     return await this.menuItemRepository.getMenuItemsByCategoryId(categoryId);
   }
 
-  async getMenuCategoryByRestaurantId(
+  async getMenuItemsByRestaurantId(
     restaurantId: string,
   ): Promise<MenuItemModel[]> {
     return await this.menuItemRepository.getMenuItemsByRestaurantId(

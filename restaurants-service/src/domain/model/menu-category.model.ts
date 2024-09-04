@@ -1,19 +1,23 @@
-export class MenuCategoryModel {
-  private constructor(
-    public readonly id: string,
-    public readonly restaurantId: string,
-    public readonly name: string,
-  ) {}
+import { menu_category } from '@prisma/client';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { MenuItemParams } from './interface/menu-item-params.interface';
+import { MenuCategoryParams } from './interface/menu-category-params.interface';
 
-  static create(
-    id: string,
-    restaurantId: string,
-    name: string,
-  ): MenuCategoryModel {
-    return {
-      id,
-      restaurantId,
-      name,
-    };
+@ObjectType()
+export class MenuCategoryModel implements menu_category {
+  @Field(() => ID)
+  id: string;
+
+  @Field(() => ID)
+  restaurantId: string;
+
+  @Field()
+  name: string;
+  private constructor(params: MenuCategoryParams) {
+    Object.assign(this, params);
+  }
+
+  static create(params: MenuItemParams): MenuCategoryModel {
+    return new MenuCategoryModel(params);
   }
 }

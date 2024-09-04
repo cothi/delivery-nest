@@ -3,6 +3,7 @@ import { RestaurantRepository } from '../../infrastructure/persistence/restauran
 import { CreateRestaurantCmd } from '../commands/create-restaurant.command';
 import { RestaurantModel } from '../../domain/model/restaurant.model';
 import { min } from 'rxjs';
+import { GetRestaurantsQuery } from '../queries/get-restaurants.query';
 
 @Injectable()
 export class RestaurantService {
@@ -16,11 +17,8 @@ export class RestaurantService {
   async getRestaurantById(id: string): Promise<RestaurantModel> {
     return await this.restaurantRepository.getRestaurantById(id);
   }
-  async getListRestaurants(
-    page: number,
-    pageSize: number,
-    take: number,
-  ): Promise<RestaurantModel[]> {
+  async getRestaurants(query: GetRestaurantsQuery): Promise<RestaurantModel[]> {
+    const { take, pageSize, page } = query;
     const size: number = take > 20 ? 20 : take;
     const skip: number = pageSize * page;
     return await this.restaurantRepository.getListRestaurants(skip, size);
