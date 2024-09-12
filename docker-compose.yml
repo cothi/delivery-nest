@@ -9,6 +9,74 @@ services:
       - "3307:3306"
     volumes:
       - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      timeout: 5s
+      retries: 10
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    volumes:
+      - ./api-gateway:/app
+      - /app/node-modules
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      #- DATABASE_URL=mysql://root:root@mysql:3306/mydb
+      - DATABASE_URL=mysql://root:root@mysql:3306/mydb
+      - KAFKA_BROKER=kafka:29092
+    depends_on:
+      - restaurants-service
+      - user-service
+#  order-service:
+#    build:
+#      context: ./order-service
+#      dockerfile: Dockerfile.dev
+#    volumes:
+#      - ./order-serivce
+#      - /app/node_modules
+#    environment:
+#      - NODE_ENV=development
+#      - DATABASE_URL=mysql://root:root@localhost:3307/mydb
+  restaurants-service:
+    build:
+      context: ./restaurants-service
+      dockerfile: Dockerfile
+    volumes:
+      - ./restaurants-service:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      #- DATABASE_URL=mysql://root:root@localhost:3306/mydb
+      - DATABASE_URL=mysql://root:root@mysql:3306/mydb
+      - KAFKA_BROKER=kafka:29092
+      - AWS_ACCESS_KEY_ID=AKIA6ODU5YO477EUV3WU
+      - AWS_SECRET_ACCESS_KEY=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
+      - AWS_REGION=ap-northeast-2
+      - S3_BUCKET_NAME=testercothi
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    volumes:
+      - ./user-service:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      #- DATABASE_URL=mysql://root:root@localhost:3306/mydb
+      - DATABASE_URL=mysql://root:root@mysql:3306/mydb
+      - KAFKA_BROKER=kafka:29092
+    depends_on:
+      mysql:
+        condition: service_healthy
 
 volumes:
   mysql-data:

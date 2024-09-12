@@ -3,6 +3,7 @@
     "prisma": "^5.19.0"
   },
   "dependencies": {
-    "@prisma/client": "^5.19.0"
+    "@prisma/client": "^5.19.0",
+    "graphql-upload": "^16.0.2"
   }
 }

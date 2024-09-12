@@ -1,7 +1,8 @@
 import { menu_item } from '@prisma/client';
-import { Field, Float, ID } from '@nestjs/graphql';
+import { Field, Float, ID, ObjectType } from '@nestjs/graphql';
 import { MenuItemParams } from '../interfaces/menu-item-params.interface';
 
+@ObjectType()
 export class MenuItemModel implements menu_item {
   @Field(() => ID)
   readonly id: string;

@@ -1,10 +1,13 @@
 import { Field, InputType } from '@nestjs/graphql';
+import { GraphQLUpload } from 'graphql-upload-minimal';
 
+export interface FileUpload {
+  filename: string;
+  mimetype: string;
+  buffer: string;
+}
 @InputType()
 export class CreateMenuItemInput {
-  @Field()
-  mainPhotoUrl: string;
-
   @Field()
   menuCategoryId: string;
 
@@ -19,4 +22,9 @@ export class CreateMenuItemInput {
 
   @Field()
   description: string;
+
+  @Field(() => GraphQLUpload)
+  file: FileUpload;
 }
+
+
