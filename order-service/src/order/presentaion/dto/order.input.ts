@@ -1,22 +1,22 @@
-import {Field, InputType} from "@nestjs/graphql";
+import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-export class OrderInput {
-    @Field()
-    customerId: string;
+export class CreateOrderInput {
+  @Field()
+  customerId: string;
 
-    @Field()
-    restaurantId: string;
+  @Field()
+  restaurantId: string;
 
-    @Field()
-    orderFoods: OrderFoodInput[];
+  @Field()
+  orderFoods: OrderFoodInput[];
 }
 
 @InputType()
-export class OrderFoodInput{
-    @Field()
-    FoodId: String;
+export class OrderFoodInput {
+  @Field()
+  FoodId: string;
 
-    @Field()
-    quantity: number;
+  @Field()
+  quantity: number;
 }

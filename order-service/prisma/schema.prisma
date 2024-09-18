@@ -75,7 +75,6 @@ model Order {
   restaurantId String
   totalAmount  Float
   status       OrderStatus @default(PENDING)
-  orderFoods   OrderFood[]
   delivery     Delivery?
   payment      Payment?
   createdAt    DateTime    @default(now())
@@ -84,12 +83,9 @@ model Order {
 
 model OrderFood {
   id       String @id @default(uuid())
-  order    Order  @relation(fields: [orderId], references: [id])
-  orderId  String
-  food     Food   @relation(fields: [foodId], references: [id])
   foodId   String
+  food     Food   @relation(fields: [foodId], references: [id])
   quantity Int
-  price    Float
 }
 
 model Delivery {

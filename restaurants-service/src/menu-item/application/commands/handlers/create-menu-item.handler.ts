@@ -8,7 +8,7 @@ import {AwsS3Uploader} from "../../../infrastructure/AWS/S3/aws-s3.uploader";
 
 @Injectable()
 @CommandHandler(CreateMenuItemCmd)
-export class CreateMenuItemHandler implements ICommandHandler {
+export class CreateMenuItemHandler implements ICommandHandler<CreateMenuItemCmd> {
   constructor(
   private readonly awsS3Uploader: AwsS3Uploader,
   private readonly menuItemService: MenuItemService) {}
