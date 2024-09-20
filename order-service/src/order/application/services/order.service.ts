@@ -21,6 +21,7 @@ export class OrderService {
       OrderMapper.updateStatusToPersistence(cmd),
     );
   }
+
   async getOrderById(query: GetOrderQuery): Promise<Order> {
     return await this.orderRepository.getOrderById(query.id);
   }

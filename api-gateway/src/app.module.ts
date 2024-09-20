@@ -43,13 +43,22 @@ class FileUploadDataSource extends RemoteGraphQLDataSource {
       gateway: {
         supergraphSdl: new IntrospectAndCompose({
           subgraphs: [
-            //{ name: 'orders', url: 'http://localhost:3001/graphql' },
+            {
+              name: 'orders',
+              url: 'http://order-service:3001/graphql'
+            },
+            {
+              name: 'users',
+              url: 'http://user-service:3002/graphql'
+            },
             {
               name: 'restaurants',
               url: 'http://restaurants-service:3003/graphql',
             },
-            //{ name: 'deliveries', url: 'http://delivery-service:3003/graphql' },
-            { name: 'users', url: 'http://user-service:3002/graphql' },
+            {
+              name: 'payments',
+              url: 'http://payment-service:5000/graphql',
+            },
           ],
         }),
         buildService({ url }) {

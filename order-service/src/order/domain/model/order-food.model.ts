@@ -6,6 +6,9 @@ export class OrderFood implements PrismaOrderFood {
   @Field(() => ID)
   id: string;
 
+  @Field(() => ID)
+  orderId: string;
+
   @Field()
   foodId: string;
 

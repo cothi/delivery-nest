@@ -11,6 +11,7 @@ import { MenuItemModule } from './menu-item/menu-item.module';
 
 @Module({
   imports: [
+
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
       driver: ApolloFederationDriver,
       autoSchemaFile: true,

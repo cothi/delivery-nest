@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
-import { OrderStatus } from '@prisma/client';
+import {OrderStatus} from "@prisma/client";
 
 export class UpdateOrderStatusCmd implements ICommand {
   constructor(

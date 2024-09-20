@@ -64,7 +64,7 @@ model Food {
   mainPhotoUrl   String
   restaurant     Restaurant   @relation(fields: [restaurantId], references: [id])
   restaurantId   String
-  orderFoods     OrderFood[]
+  OrderFood      OrderFood[]
 }
 
 model Order {
@@ -75,6 +75,7 @@ model Order {
   restaurantId String
   totalAmount  Float
   status       OrderStatus @default(PENDING)
+  orderFoods   OrderFood[]
   delivery     Delivery?
   payment      Payment?
   createdAt    DateTime    @default(now())
@@ -83,8 +84,10 @@ model Order {
 
 model OrderFood {
   id       String @id @default(uuid())
-  foodId   String
   food     Food   @relation(fields: [foodId], references: [id])
+  foodId   String
+  order    Order  @relation(fields: [orderId], references: [id])
+  orderId  String
   quantity Int
 }
 

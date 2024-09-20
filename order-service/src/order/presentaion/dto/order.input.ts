@@ -1,6 +1,16 @@
 import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
+export class OrderFoodInput {
+  @Field()
+  FoodId: string;
+
+  @Field()
+  quantity: number;
+}
+
+
+@InputType()
 export class CreateOrderInput {
   @Field()
   customerId: string;
@@ -8,15 +18,6 @@ export class CreateOrderInput {
   @Field()
   restaurantId: string;
 
-  @Field()
+  @Field(() => [OrderFoodInput])
   orderFoods: OrderFoodInput[];
-}
-
-@InputType()
-export class OrderFoodInput {
-  @Field()
-  FoodId: string;
-
-  @Field()
-  quantity: number;
 }

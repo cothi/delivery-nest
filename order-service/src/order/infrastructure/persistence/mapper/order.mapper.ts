@@ -17,7 +17,6 @@ export class OrderMapper {
       orderFoods: {
         create: cmd.foodFoods.map((food) => ({
           quantity: food.quantity,
-          price: food.price,
           food: {
             connect: { id: cmd.customerId },
           },

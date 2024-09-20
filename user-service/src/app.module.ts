@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { DatabaseModule } from '../infrastructure/prisma/database.module';
+import { DatabaseModule } from './infrastructure/prisma/database.module';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/apollo';
-import { UserModule } from './user.module';
-import { GraphQLExceptionFilter } from '../utils/filters/exception.filter';
-import { JwtAuthGuard } from '../utils/guard/jwt-auth.guard';
-import { JwtTokenModule } from '../utils/jwt/jwt.module';
+import { UserModule } from './modules/user.module';
+import { GraphQLExceptionFilter } from './utils/filters/exception.filter';
+import { JwtAuthGuard } from './utils/guard/jwt-auth.guard';
+import { JwtTokenModule } from './utils/jwt/jwt.module';
 
 @Module({
   imports: [
