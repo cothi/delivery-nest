@@ -32,4 +32,8 @@ export class UserService {
     }
     return await this.userRepository.deleteAccount(userId);
   }
+
+  async getKakaoAuthUrl(): Promise<string> {}
+
+  async kakaoAuth(code: string): Promise<string> {}
 }

@@ -19,7 +19,9 @@ export class UserRepository {
     const getUser = await this.prismaService.user.findUnique({
       where: { email },
     });
-    if (!getUser) return null;
+    if (!getUser) {
+      return null;
+    }
     return UserMapper.toDomain(getUser);
   }
   async findAccountByUserId(userId: string): Promise<User | null> {

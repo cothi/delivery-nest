@@ -10,7 +10,11 @@ export class DeleteUserHandler implements ICommandHandler<DeleteUserCommand> {
   constructor(private readonly userService: UserService) {}
 
   async execute(cmd: DeleteUserCommand): Promise<Boolean> {
-    await this.userService.deleteAccount(cmd.userId);
-    return true;
+    try {
+      await this.userService.deleteAccount(cmd.userId);
+      return true;
+    } catch (error) {
+      throw error;
+    }
   }
 }

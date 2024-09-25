@@ -15,10 +15,14 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
   ) {}
 
   async execute(cmd: CreateUserCommand): Promise<TokenPairDto> {
-    const user = await this.userService.signUp({ ...cmd });
-    return this.jwtTokenService.generateTokenPair({
-      userId: user.id,
-      email: user.email,
-    });
+    try {
+      const user = await this.userService.signUp({...cmd});
+      return this.jwtTokenService.generateTokenPair({
+        userId: user.id,
+        email: user.email,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

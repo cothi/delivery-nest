@@ -8,6 +8,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { CreateUserHandler } from '../application/commands/handlers/create-user.handler';
 import { LoginUserHandler } from '../application/queries/handlers/login-user.handler';
 import { JwtAuthGuard } from '../utils/guard/jwt-auth.guard';
+import { DeleteUserHandler } from '../application/commands/handlers/delete-user.handler';
 
 @Module({
   imports: [CqrsModule, DatabaseModule, JwtTokenModule],
@@ -18,6 +19,7 @@ import { JwtAuthGuard } from '../utils/guard/jwt-auth.guard';
     UserRepository,
     CreateUserHandler,
     LoginUserHandler,
+    DeleteUserHandler,
   ],
   exports: [UserResolver],
 })

@@ -7,6 +7,7 @@ import { UserModule } from './modules/user.module';
 import { GraphQLExceptionFilter } from './utils/filters/exception.filter';
 import { JwtAuthGuard } from './utils/guard/jwt-auth.guard';
 import { JwtTokenModule } from './utils/jwt/jwt.module';
+import * as process from 'node:process';
 
 @Module({
   imports: [
@@ -16,8 +17,8 @@ import { JwtTokenModule } from './utils/jwt/jwt.module';
     }),
     DatabaseModule,
     ConfigModule.forRoot({
+      envFilePath: process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
       isGlobal: true,
-      envFilePath: '.env',
     }),
     UserModule,
   ],

@@ -14,7 +14,6 @@ export class LoginUserHandler implements IQueryHandler<LoginUserQuery> {
   ) {}
 
   async execute(cmd: LoginUserQuery): Promise<TokenPairDto> {
-    console.log(cmd);
     const user = await this.userService.login(cmd);
     return this.jwtTokenService.generateTokenPair({ userId: user.id, email: user.email });
   }
