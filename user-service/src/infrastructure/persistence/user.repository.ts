@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateUserMapper, UserMapper } from '../mapper/user.mapper';
 import { CreateUserDto } from '../../presentation/dto/req/create-user.dto';
 import { User } from '../../domain/model/user.model';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UserRepository {
@@ -11,6 +12,13 @@ export class UserRepository {
     const userEntity = CreateUserMapper.toPersistence(user);
     const createUser = await this.prismaService.user.create({
       data: userEntity,
+    });
+    return CreateUserMapper.toDomain(createUser);
+  }
+
+  async createAccountWithId(user: Prisma.UserCreateInput): Promise<User> {
+    const createUser = await this.prismaService.user.create({
+      data: user,
     });
     return CreateUserMapper.toDomain(createUser);
   }
@@ -26,7 +34,7 @@ export class UserRepository {
   }
   async findAccountByUserId(userId: string): Promise<User | null> {
     const getUser = await this.prismaService.user.findUnique({
-      where: { id: userId },
+      where: { id: userId.toString() },
     });
     return UserMapper.toDomain(getUser);
   }

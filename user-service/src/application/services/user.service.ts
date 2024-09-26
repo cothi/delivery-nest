@@ -6,10 +6,14 @@ import { User } from '../../domain/model/user.model';
 import { errorFactory } from '../../utils/exception/error-factory';
 import { ErrorCode } from '../../utils/exception/enums/error-code.enum';
 import { LoginUserQuery } from '../queries/login-user.query';
+import { KakaoAuth } from '../../infrastructure/kakao/kakao.auth';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly kakaoAuth: KakaoAuth,
+  ) {}
   async signUp(createUser: CreateUserDto): Promise<User> {
     const user = await this.userRepository.findAccountByEmail(createUser.email);
     if (user) {
@@ -33,7 +37,21 @@ export class UserService {
     return await this.userRepository.deleteAccount(userId);
   }
 
-  async getKakaoAuthUrl(): Promise<string> {}
-
-  async kakaoAuth(code: string): Promise<string> {}
+  async getKakaoAuthUrl(): Promise<string> {
+    return this.kakaoAuth.getAuthorizationUrl();
+  }
+  async kakaoLogin(code: string): Promise<User> {
+    const kakaoToken = await this.kakaoAuth.getToken(code);
+    const kakaoUser = await this.kakaoAuth.getUser(kakaoToken.access_token);
+    console.log(kakaoUser);
+    let user = await this.userRepository.findAccountByUserId(kakaoUser.id);
+    if (!user) {
+      user = await this.userRepository.createAccountWithId({
+        id: kakaoUser.id,
+        email: kakaoUser.kakao_account.email,
+        nickname: kakaoUser.properties.nickname,
+      });
+    }
+    return user;
+  }
 }

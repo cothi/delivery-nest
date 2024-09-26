@@ -9,9 +9,12 @@ import { CreateUserHandler } from '../application/commands/handlers/create-user.
 import { LoginUserHandler } from '../application/queries/handlers/login-user.handler';
 import { JwtAuthGuard } from '../utils/guard/jwt-auth.guard';
 import { DeleteUserHandler } from '../application/commands/handlers/delete-user.handler';
+import { KakaoModule } from '../infrastructure/kakao/kakao.module';
+import { GetKakaoAuthUrlHandler } from '../application/queries/handlers/get-kakao-auth-url.handler';
+import { KakaoLoginHandler } from '../application/commands/handlers/kakako-login.handler';
 
 @Module({
-  imports: [CqrsModule, DatabaseModule, JwtTokenModule],
+  imports: [KakaoModule, CqrsModule, DatabaseModule, JwtTokenModule],
   providers: [
     JwtAuthGuard,
     UserResolver,
@@ -20,6 +23,8 @@ import { DeleteUserHandler } from '../application/commands/handlers/delete-user.
     CreateUserHandler,
     LoginUserHandler,
     DeleteUserHandler,
+    GetKakaoAuthUrlHandler,
+    KakaoLoginHandler,
   ],
   exports: [UserResolver],
 })

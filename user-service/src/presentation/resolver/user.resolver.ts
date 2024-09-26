@@ -11,6 +11,10 @@ import { JwtAuthGuard } from '../../utils/guard/jwt-auth.guard';
 import { TokenInfo } from '../../utils/decorators/token-info.decorator';
 import { JwtPayload } from '../../utils/jwt/interfaces/jwt-token.interface';
 import { UseGuards } from '@nestjs/common';
+import { KakaoAuthDto } from '../dto/req/kakaoAuth.dto';
+import { KakaoLoginCommand } from '../../application/commands/kakao-login.command';
+import { GetKakaoAuthUrlQuery } from '../../application/queries/get-kakao-auth-url.query';
+import { KakaoAuthUrlDto } from '../dto/res/kakao-auth-url.dto';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -36,12 +40,16 @@ export class UserResolver {
     const command = new DeleteUserCommand(payload.userId);
     return await this.commandBus.execute(command);
   }
+
   @Mutation(() => TokenPairDto)
-  async refreshToken(@TokenInfo() payload: JwtPayload): Promise<TokenPairDto> {}
+  async kakaoAuthLogin(@Args('input') input: KakaoAuthDto): Promise<TokenPairDto> {
+    const command = new KakaoLoginCommand(input.code);
+    return await this.commandBus.execute(command);
+  }
 
-  @Mutation()
-  async getKakaoAuthUrl() {}
-
-  @Mutation()
-  async kakaoAuth(@Args('code') code: string) {}
+  @Query(() => KakaoAuthUrlDto)
+  async getKakaoAuthUrl(): Promise<KakaoAuthUrlDto> {
+    const query = new GetKakaoAuthUrlQuery();
+    return await this.queryBus.execute(query);
+  }
 }
