@@ -51,7 +51,7 @@ services:
 
   order-service:
     build:
-      context: ./order-service
+      context: apps/order-service
       dockerfile: Dockerfile
     volumes:
       - ./order-service:/app

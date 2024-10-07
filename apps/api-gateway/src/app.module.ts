@@ -45,11 +45,11 @@ class FileUploadDataSource extends RemoteGraphQLDataSource {
           subgraphs: [
             {
               name: 'orders',
-              url: 'http://order-service:3001/graphql'
+              url: 'http://order-service:3001/graphql',
             },
             {
               name: 'users',
-              url: 'http://user-service:3002/graphql'
+              url: 'http://user-service:3002/graphql',
             },
             {
               name: 'restaurants',
