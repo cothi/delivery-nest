@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "baseUrl": ".",
+    "rootDir": "./",
+    "paths": {
+      "@decorators/*": ["decorators/*"],
+      "@exception/*": ["exception/*"],
+      "@filters/*": ["filters/*"],
+      "@guard/*": ["guard/*"],
+      "@interceptor/*": ["interceptor/*"],
+      "@jwt/*": ["jwt/*"],
+      "@logger/*": ["logger/*"],
+      "@schedulers/*": ["schedulers/*"],
+      "@slack/*": ["slack/*"],
+      "@test/*": ["test/*"],
+      "@utils/*": ["utils/*"]
+    },
+    "moduleResolution": "node"
+  },
+  "include": ["./**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}

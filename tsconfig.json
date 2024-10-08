@@ -1,11 +1,21 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",          // 루트 경로를 프로젝트 루트로 설정
-    "paths": {
-      "@libs/*": ["libs/*"],  // 공통 라이브러리 경로 설정
-      "@apps/*": ["apps/*"]   // 서비스 경로도 추가 설정
-    }
-  }
+    "module": "commonjs",
+    "target": "es2020",
+    "lib": ["es2020", "dom"],
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "declaration": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "baseUrl": "./",
+    "rootDir": "./"
+  },
+  "exclude": ["node_modules", "dist"],
+  "include": ["apps/**/*.ts", "common/**/*.ts"]
 }
-
-
