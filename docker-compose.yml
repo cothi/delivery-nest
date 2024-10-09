@@ -50,7 +50,7 @@ services:
 
   api-gateway:
     build:
-      context: apps/api-gateway
+      context: api-gateway
       dockerfile: Dockerfile
     volumes:
       - ./api-gateway:/app

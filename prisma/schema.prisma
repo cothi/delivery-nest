@@ -14,9 +14,22 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
-  email String @unique
-  nickname String
-  password String
+  id            String          @id @default(uuid())
+  nickname      String
+  email         String?         @unique
+  birthday      DateTime?
+  password      String?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  OAuthProvider OAuthProvider[]
 }
 
+model OAuthProvider {
+  id         String @id @default(uuid())
+  providerId String
+  user       User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+}
