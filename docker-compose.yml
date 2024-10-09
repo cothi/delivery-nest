@@ -50,7 +50,7 @@ services:
 
   api-gateway:
     build:
-      context: ./api-gateway
+      context: api-gateway
       dockerfile: Dockerfile
     volumes:
       - ./api-gateway:/app
@@ -72,7 +72,7 @@ services:
 
   order-service:
     build:
-      context: ./order-service
+      context: apps/order-service
       dockerfile: Dockerfile
     volumes:
       - ./order-service:/app
@@ -89,7 +89,7 @@ services:
 
   restaurants-service:
     build:
-      context: ./restaurants-service
+      context: apps/restaurants-service
       dockerfile: Dockerfile
     volumes:
       - ./restaurants-service:/app
@@ -110,7 +110,7 @@ services:
 
   user-service:
     build:
-      context: ./user-service
+      context: apps/user-service
       dockerfile: Dockerfile
     volumes:
       - ./user-service:/app
@@ -127,7 +127,7 @@ services:
 
   payment-service:
     build:
-      context: ./payment-service
+      context: apps/payment-service
       dockerfile: Dockerfile
     volumes:
       - ./payment-service:/app
