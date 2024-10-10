@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { JwtTokenService } from '@libs/jwt';
 import { LoginUserQuery } from '@account/user/application/queries/login-user.query';
-import { UserService } from '@account/user/application/services/user.service';
+import { UserService } from '@account/user/domain/services/user.service';
 import { TokenPairDto } from '@account/user/presentation/dto/res/token-pair.dto';
 
 @Injectable()

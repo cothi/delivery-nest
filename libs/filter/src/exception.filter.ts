@@ -7,7 +7,7 @@ import {
 import { GqlExceptionFilter, GqlExecutionContext } from '@nestjs/graphql';
 import { GraphQLError } from 'graphql';
 import { ErrorCode, errorFactory } from '@libs/exception';
-import { SlackNotificationService } from '@libs/slack';
+//import { SlackNotificationService } from '@libs/slack';
 import { LoggerService } from '@libs/logger';
 
 interface ErrorInfo {
@@ -18,7 +18,7 @@ interface ErrorInfo {
 @Catch()
 export class GraphQLExceptionFilter implements GqlExceptionFilter {
   constructor(
-    private readonly slackNotificationService: SlackNotificationService,
+    //private readonly slackNotificationService: SlackNotificationService,
     private readonly logger: LoggerService,
   ) {}
 
@@ -63,13 +63,13 @@ export class GraphQLExceptionFilter implements GqlExceptionFilter {
   }
 
   private async logError(errorInfo: ErrorInfo, exception: any, req: any) {
-    await this.slackNotificationService.sendErrorNotification({
-      message: errorInfo.message,
-      status: errorInfo.status,
-      code: errorInfo.code,
-      body: req.body,
-      stack: exception.stack,
-    });
+    //await this.slackNotificationService.sendErrorNotification({
+    //  message: errorInfo.message,
+    //  status: errorInfo.status,
+    //  code: errorInfo.code,
+    //  body: req.body,
+    //  stack: exception.stack,
+    //});
 
     this.logger.warn(errorInfo.message, {
       status: errorInfo.status,

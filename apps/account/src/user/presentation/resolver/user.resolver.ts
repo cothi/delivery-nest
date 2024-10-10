@@ -4,7 +4,6 @@ import { UseGuards } from '@nestjs/common';
 
 import { JwtAuthGuard, JwtPayload } from '@libs/jwt';
 import { TokenInfo } from '@libs/decorators';
-import { User } from '@account/user/domain/model/user.model';
 import { TokenPairDto } from '@account/user/presentation/dto/res/token-pair.dto';
 import { CreateUserCommand } from '@account/user/application/commands/create-user.command';
 import { CreateUserDto } from '@account/user/presentation/dto/req/create-user.dto';
@@ -15,8 +14,9 @@ import { KakaoAuthDto } from '@account/user/presentation/dto/req/kakaoAuth.dto';
 import { KakaoLoginCommand } from '@account/user/application/commands/kakao-login.command';
 import { KakaoAuthUrlDto } from '@account/user/presentation/dto/res/kakao-auth-url.dto';
 import { GetKakaoAuthUrlQuery } from '@account/user/application/queries/get-kakao-auth-url.query';
+import { UserModel } from '@account/user/domain/model/user.model';
 
-@Resolver(() => User)
+@Resolver(() => UserModel)
 export class UserResolver {
   constructor(
     private readonly queryBus: QueryBus,

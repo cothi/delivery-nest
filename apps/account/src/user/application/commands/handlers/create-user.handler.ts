@@ -3,7 +3,7 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
 import { JwtTokenService } from '@libs/jwt';
 import { CreateUserCommand } from '@account/user/application/commands/create-user.command';
-import { UserService } from '@account/user/application/services/user.service';
+import { UserService } from '@account/user/domain/services/user.service';
 import { TokenPairDto } from '@account/user/presentation/dto/res/token-pair.dto';
 
 @Injectable()
@@ -16,10 +16,16 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
 
   async execute(cmd: CreateUserCommand): Promise<TokenPairDto> {
     try {
+      await this.userService.validateCanSignUpUser(cmd.email);
+
       const user = await this.userService.signUp({ ...cmd });
-      return this.jwtTokenService.generateTokenPair({
+      const tokens = this.jwtTokenService.generateTokenPair({
         userId: user.id,
       });
+      return {
+        accessToken: tokens.accessToken,
+        refreshToken: tokens.refreshToken,
+      };
     } catch (error) {
       throw error;
     }

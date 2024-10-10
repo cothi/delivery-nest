@@ -13,23 +13,149 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id            String          @id @default(uuid())
-  nickname      String
-  email         String?         @unique
-  birthday      DateTime?
-  password      String?
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
+model Users {
+  id        String    @id @default(uuid())
+  nickname  String
+  email     String?   @unique
+  birthday  DateTime?
+  password  String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
   OAuthProvider OAuthProvider[]
+  Chats         Chats[]
+  Orders        Orders[]
+  Deliveries    Deliveries[]
+  UserRoles     UserRoles[]
+  Stores        Stores[]
+}
+
+model UserRoles {
+  id     String       @id @default(uuid())
+  users  Users        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  roles  UserRoleType @default(USER)
+
+  @@unique([userId, roles])
+  @@index([roles])
+}
+
+model Stores {
+  id        String      @id @default(uuid())
+  name      String
+  address   String
+  status    Boolean     @default(true)
+  owner     Users       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId   String      @unique
+  FoodItems FoodItems[]
+}
+
+model FoodItems {
+  id          String       @id @default(uuid())
+  store       Stores       @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  storeId     String
+  name        String
+  description String
+  price       Int
+  imageURI    String
+  OrderItems  OrderItems[]
 }
 
 model OAuthProvider {
-  id         String @id @default(uuid())
+  id         String       @id @default(uuid())
+  provider   ProviderType
   providerId String
-  user       User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user       Users        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
 
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([provider, providerId])
+}
+
+model Chats {
+  id String @id @default(uuid())
+
+  user   Users  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  ChatMessage ChatMessage[]
+
+  @@index([userId, createdAt])
+}
+
+model ChatMessage {
+  id        String   @id @default(uuid())
+  chats     Chats    @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  chatId    String
+  message   String
+  createdAt DateTime @default(now())
+
+  @@index([chatId, createdAt])
+}
+
+model Orders {
+  id          String         @id @default(uuid())
+  users       Users          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  totalAmount Int
+  foodstatus  FoodStatusType
+  Payments    Payments?
+  Deliveries  Deliveries[]
+  OrderItems  OrderItems[]
+}
+
+model OrderItems {
+  id         String    @id @default(uuid())
+  order      Orders    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId    String
+  foodItem   FoodItems @relation(fields: [foodItemId], references: [id], onDelete: Cascade)
+  foodItemId String
+  quantity   Int
+  price      Int
+}
+
+model Deliveries {
+  id String @id @default(uuid())
+
+  order   Orders @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId String
+
+  user             Users  @relation(fields: [deliveryPersonId], references: [id])
+  deliveryPersonId String
+}
+
+model Payments {
+  id            String        @id @default(uuid())
+  order         Orders        @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId       String        @unique
+  amount        Int
+  paymentStatus PaymentStatus @default(BEFORE)
+}
+
+enum ProviderType {
+  KAKAO
+  GOOGLE
+  APPLE
+}
+
+enum FoodStatusType {
+  PENDING
+  MAKE
+  DELIVERY
+  COMPLETE
+}
+
+enum PaymentStatus {
+  BEFORE
+  PAY
+}
+
+enum UserRoleType {
+  COURIER
+  COUNSELOR
+  USER
 }
