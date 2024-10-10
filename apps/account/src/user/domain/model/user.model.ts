@@ -1,22 +1,33 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
-
+import { Field, HideField, ID, ObjectType } from '@nestjs/graphql';
+import { User } from '@prisma/client';
 @ObjectType()
-export class User {
+export class UserModel implements User {
   @Field()
   id: string;
 
   @Field()
-  email: string;
-
-  @Field()
-  password: string;
-
-  @Field()
   nickname: string;
 
-  private constructor(id: string, email: string, password: string, nickname: string) {}
-  static create(id: string, email: string, password: string, nickname: string) {
-    return new User(id, email, password, nickname);
+  @Field({ nullable: true })
+  email: string | undefined;
+
+  @Field({ nullable: true })
+  birthday: Date | undefined;
+
+  @HideField()
+  password: string | undefined;
+
+  @HideField()
+  createdAt: Date;
+
+  @HideField()
+  updatedAt: Date;
+
+  private constructor(data: Partial<UserModel>) {
+    Object.assign(this, data);
+  }
+  static create(data: Partial<UserModel>) {
+    return new UserModel({ ...data });
   }
 }
 

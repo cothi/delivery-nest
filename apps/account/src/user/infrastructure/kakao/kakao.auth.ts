@@ -1,42 +1,64 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import axios from 'axios';
+import { ErrorCode, errorFactory } from '@libs/exception';
 
 @Injectable()
 export class KakaoAuth {
-  private readonly CLIENT_ID: string = 'ce184f45fd3d8708a1f657f25e58fe2f';
-  private readonly REDIRECT_URI: string =
-    'http://localhost:3000/kakao/callback';
-  private readonly CLIENT_SECRET: string = 'zTzlpS1hrGqjKWmmdPpZyPYmpaXmKP8x';
-  constructor(private readonly configService: ConfigService) {}
-  getAuthorizationUrl(): string {
-    return `https://kauth.kakao.com/oauth/authorize?client_id=${this.CLIENT_ID}&redirect_uri=${this.REDIRECT_URI}&response_type=code`;
+  private readonly CLIENT_ID: string;
+  private readonly TEST_REDIRECT_URI: string;
+  private readonly REDIRECT_URI: string;
+  private readonly CLIENT_SECRET: string;
+  private readonly AUTH_URL: string = 'https://kauth.kakao.com/oauth/authorize';
+  private readonly TOKEN_URL: string = 'https://kauth.kakao.com/oauth/token';
+  private readonly USER_INFO_URL: string = 'https://kapi.kakao.com/v2/user/me';
+
+  constructor(private readonly configService: ConfigService) {
+    this.CLIENT_ID = this.configService.get<string>('KAKAO_CLIENT_ID') || '';
+    this.TEST_REDIRECT_URI =
+      this.configService.get<string>('KAKAO_TEST_REDIRECT_URI') || '';
+    this.REDIRECT_URI =
+      this.configService.get<string>('KAKAO_REDIRECT_URI') || '';
+    this.CLIENT_SECRET =
+      this.configService.get<string>('KAKAO_CLIENT_SECRET') || '';
   }
 
-  async getToken(code: string) {
-    const response = await axios.post(
-      'https://kauth.kakao.com/oauth/token',
-      null,
-      {
+  getAuthorizationUrl(isTest: boolean): string {
+    //const params = new URLSearchParams({
+    //  client_id: this.CLIENT_ID,
+    //  redirect_uri: this.REDIRECT_URI,
+    //  response_type: 'code',
+    //});
+    //const url = `${this.AUTH_URL}?${params.toString()}`;
+    if (isTest) {
+      return `https://kauth.kakao.com/oauth/authorize?client_id=${this.CLIENT_ID}&redirect_uri=${this.TEST_REDIRECT_URI}&response_type=code`;
+    } else {
+      return `https://kauth.kakao.com/oauth/authorize?client_id=${this.CLIENT_ID}&redirect_uri=${this.REDIRECT_URI}&response_type=code`;
+    }
+  }
+
+  async getToken(code: string, isTest: boolean) {
+    const params = new URLSearchParams({
+      grant_type: 'authorization_code',
+      client_id: this.CLIENT_ID,
+      redirect_uri: isTest ? this.TEST_REDIRECT_URI : this.REDIRECT_URI,
+      client_secret: this.CLIENT_SECRET,
+      code: code,
+    });
+    try {
+      const response = await axios.post(this.TOKEN_URL, params.toString(), {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
         },
-        params: {
-          grant_type: 'authorization_code',
-          client_id: this.CLIENT_ID,
-          redirect_uri: this.REDIRECT_URI,
-          client_secret: this.CLIENT_SECRET,
-          code: code,
-        },
-      },
-    );
-
-    return response.data;
+      });
+      return response.data;
+    } catch {
+      throw errorFactory(ErrorCode.BAD_REQUEST);
+    }
   }
 
   async getUser(accessToken: string) {
-    console.log(accessToken);
-    const response = await axios.get('https://kapi.kakao.com/v2/user/me', {
+    const response = await axios.get(this.USER_INFO_URL, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
     return response.data;

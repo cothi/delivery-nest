@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { GetKakaoAuthUrlQuery } from '@account/user/application/queries/get-kakao-auth-url.query';
-import { UserService } from '@account/user/application/services/user.service';
+import { UserService } from '@account/user/domain/services/user.service';
 import { KakaoAuthUrlDto } from '@account/user/presentation/dto/res/kakao-auth-url.dto';
 
 @Injectable()

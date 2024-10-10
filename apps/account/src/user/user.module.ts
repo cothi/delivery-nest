@@ -6,7 +6,7 @@ import { DatabaseModule } from '@libs/database';
 import { JwtAuthGuard, JwtTokenModule } from '@libs/jwt';
 import { KakaoModule } from '@account/user/infrastructure/kakao/kakao.module';
 import { UserResolver } from '@account/user/presentation/resolver/user.resolver';
-import { UserService } from '@account/user/application/services/user.service';
+import { UserService } from '@account/user/domain/services/user.service';
 import { UserRepository } from '@account/user/infrastructure/persistence/user.repository';
 import { CreateUserHandler } from '@account/user/application/commands/handlers/create-user.handler';
 import { LoginUserHandler } from '@account/user/application/queries/handlers/login-user.handler';

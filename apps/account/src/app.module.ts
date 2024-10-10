@@ -6,11 +6,12 @@ import {
   ApolloFederationDriverConfig,
 } from '@nestjs/apollo';
 import * as process from 'node:process';
-import { DatabaseModule } from '@libs/database';
 import { GraphQLExceptionFilter } from '@libs/filter';
 import { SlackNotificationService } from '@libs/slack';
 import { LoggerModule } from '@libs/logger';
 import { UserModule } from '@account/user/user.module';
+import { LoggingInterceptor } from '@libs/interceptor';
+import { DatabaseModule } from '@libs/database';
 
 @Module({
   imports: [
@@ -31,6 +32,10 @@ import { UserModule } from '@account/user/user.module';
     {
       provide: 'APP_FILTER',
       useClass: GraphQLExceptionFilter,
+    },
+    {
+      provide: 'APP_INTERCEPTOR',
+      useClass: LoggingInterceptor,
     },
     SlackNotificationService,
   ],
