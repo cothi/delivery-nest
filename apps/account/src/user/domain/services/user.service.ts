@@ -1,19 +1,35 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 
 import { ErrorCode, errorFactory } from '@libs/exception';
-import { UserRepository } from '@account/user/infrastructure/persistence/user.repository';
-import { CreateUserDto } from '@account/user/presentation/dto/req/create-user.dto';
 import { UserModel } from '@account/user/domain/model/user.model';
-import { LoginUserQuery } from '@account/user/application/queries/login-user.query';
+import {
+  IUserRepository,
+  UserRepositorySymbol,
+} from '@account/user/infrastructure/interfaces/user-repository.interface';
+import { CreateUserDto } from '@account/user/domain/dto/create-user.dto';
+import { LoginUserDto } from '@account/user/domain/dto/login-user.dto';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
-  async signUp(createUser: CreateUserDto): Promise<UserModel> {
-    return await this.userRepository.createAccount(createUser);
+  constructor(
+    @Inject(UserRepositorySymbol)
+    private readonly userRepository: IUserRepository,
+  ) {}
+  async signUp(dto: CreateUserDto): Promise<UserModel> {
+    return await this.userRepository.createUser({
+      data: {
+        nickname: dto.nickname,
+        email: dto.email,
+        password: dto.password,
+      },
+    });
   }
-  async login(query: LoginUserQuery): Promise<UserModel> {
-    const user = await this.userRepository.findAccountByEmail(query.email);
+  async validateLogin(query: LoginUserDto): Promise<UserModel> {
+    const user = await this.userRepository.findUserUnique({
+      where: {
+        email: query.email,
+      },
+    });
     if (query.password != user.password) {
       throw errorFactory(ErrorCode.UNAUTHORIZED);
     }
@@ -21,17 +37,29 @@ export class UserService {
   }
 
   async deleteAccount(userId: string): Promise<UserModel> {
-    return await this.userRepository.deleteAccount(userId);
+    return await this.userRepository.deleteUser({
+      where: {
+        id: userId,
+      },
+    });
   }
 
   async validateExistUserId(userId: string): Promise<void> {
-    const user = await this.userRepository.findAccountByUserId(userId);
+    const user = await this.userRepository.findUserUnique({
+      where: {
+        id: userId,
+      },
+    });
     if (!user) {
       throw errorFactory(ErrorCode.NOT_FOUND);
     }
   }
   async validateCanSignUpUser(email: string): Promise<void> {
-    const user = await this.userRepository.findAccountByEmail(email);
+    const user = await this.userRepository.findUserUnique({
+      where: {
+        email,
+      },
+    });
     if (user) {
       throw errorFactory(ErrorCode.SIGN_EMAIL_CONFLICTED);
     }

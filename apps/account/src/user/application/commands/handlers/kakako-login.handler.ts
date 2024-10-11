@@ -3,8 +3,7 @@ import { Injectable } from '@nestjs/common';
 
 import { JwtTokenService } from '@libs/jwt';
 import { KakaoLoginCommand } from '@account/user/application/commands/kakao-login.command';
-import { UserService } from '@account/user/domain/services/user.service';
-import { TokenPairDto } from '@account/user/presentation/dto/res/token-pair.dto';
+import { TokenPairDto } from '@account/user/presentation/dto/res/token-pair.object';
 import { UserKakaoService } from '@account/user/domain/services/user-kakao.service';
 
 @Injectable()
