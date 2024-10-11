@@ -4,7 +4,7 @@ import { UserModel } from '@account/user/domain/model/user.model';
 import {
   IUserRepository,
   UserRepositorySymbol,
-} from '@account/user/infrastructure/interfaces/user-repository.interface';
+} from '@account/user/domain/interfaces/user-repository.interface';
 @Injectable()
 export class UserKakaoService {
   constructor(

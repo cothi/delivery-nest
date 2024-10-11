@@ -13,7 +13,9 @@ import { LoginUserHandler } from '@account/user/application/queries/handlers/log
 import { DeleteUserHandler } from '@account/user/application/commands/handlers/delete-user.handler';
 import { GetKakaoAuthUrlHandler } from '@account/user/application/queries/handlers/get-kakao-auth-url.handler';
 import { KakaoLoginHandler } from '@account/user/application/commands/handlers/kakako-login.handler';
-import { UserRepositorySymbol } from '@account/user/infrastructure/interfaces/user-repository.interface';
+import { UserRepositorySymbol } from '@account/user/domain/interfaces/user-repository.interface';
+import { UserRoleRepositorySymbol } from '@account/user/domain/interfaces/user-role-repository.interface';
+import { UserRoleRepositoryImpl } from '@account/user/infrastructure/persistence/user-role.repository.impl';
 
 @Module({
   imports: [KakaoModule, CqrsModule, DatabaseModule, JwtTokenModule],
@@ -29,6 +31,10 @@ import { UserRepositorySymbol } from '@account/user/infrastructure/interfaces/us
     {
       provide: UserRepositorySymbol,
       useClass: UserRepositoryImpl,
+    },
+    {
+      provide: UserRoleRepositorySymbol,
+      useClass: UserRoleRepositoryImpl,
     },
   ],
   exports: [UserResolver],

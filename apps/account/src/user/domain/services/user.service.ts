@@ -5,15 +5,22 @@ import { UserModel } from '@account/user/domain/model/user.model';
 import {
   IUserRepository,
   UserRepositorySymbol,
-} from '@account/user/infrastructure/interfaces/user-repository.interface';
+} from '@account/user/domain/interfaces/user-repository.interface';
 import { CreateUserDto } from '@account/user/domain/dto/create-user.dto';
 import { LoginUserDto } from '@account/user/domain/dto/login-user.dto';
+import {
+  IUserRoleRepository,
+  UserRoleRepositorySymbol,
+} from '@account/user/domain/interfaces/user-role-repository.interface';
 
 @Injectable()
 export class UserService {
   constructor(
     @Inject(UserRepositorySymbol)
     private readonly userRepository: IUserRepository,
+
+    @Inject(UserRoleRepositorySymbol)
+    private readonly userRoleRepository: IUserRoleRepository,
   ) {}
   async signUp(dto: CreateUserDto): Promise<UserModel> {
     return await this.userRepository.createUser({
@@ -21,6 +28,17 @@ export class UserService {
         nickname: dto.nickname,
         email: dto.email,
         password: dto.password,
+      },
+    });
+  }
+
+  async getUserWithContent(userId: string): Promise<UserModel> {
+    return await this.userRepository.findUserUnique({
+      where: {
+        id: userId,
+      },
+      include: {
+        UserRoles: true,
       },
     });
   }

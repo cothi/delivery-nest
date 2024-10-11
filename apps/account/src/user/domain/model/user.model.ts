@@ -1,4 +1,5 @@
 import { Field, HideField, ID, ObjectType } from '@nestjs/graphql';
+import { UserRoleModel } from '@account/user/domain/model/user-role.model';
 @ObjectType()
 export class UserModel {
   @Field()
@@ -13,6 +14,9 @@ export class UserModel {
   @Field({ nullable: true })
   birthday?: Date | undefined;
 
+  @Field({ nullable: true })
+  roles?: UserRoleModel[];
+
   @HideField()
   password: string | undefined;
 
@@ -22,10 +26,10 @@ export class UserModel {
   @HideField()
   updatedAt?: Date;
 
-  private constructor(data: Partial<UserModel>) {
+  private constructor(data: UserModel) {
     Object.assign(this, data);
   }
-  static create(data: Partial<UserModel>) {
+  static create(data: UserModel) {
     return new UserModel({ ...data });
   }
 }
