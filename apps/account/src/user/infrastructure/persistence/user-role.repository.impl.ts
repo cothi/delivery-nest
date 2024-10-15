@@ -3,7 +3,6 @@ import { Prisma } from '@prisma/client';
 import { UserRoleMapper } from '@account/user/infrastructure/mapper/user-role.mapper';
 import { UserRoleModel } from '@account/user/domain/model/user-role.model';
 import { IUserRoleRepository } from '@account/user/domain/interfaces/user-role-repository.interface';
-
 export class UserRoleRepositoryImpl implements IUserRoleRepository {
   constructor(private readonly prisma: PrismaService) {}
 

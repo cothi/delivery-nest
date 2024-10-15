@@ -16,6 +16,7 @@ import { KakaoLoginHandler } from '@account/user/application/commands/handlers/k
 import { UserRepositorySymbol } from '@account/user/domain/interfaces/user-repository.interface';
 import { UserRoleRepositorySymbol } from '@account/user/domain/interfaces/user-role-repository.interface';
 import { UserRoleRepositoryImpl } from '@account/user/infrastructure/persistence/user-role.repository.impl';
+import { UserKakaoService } from '@account/user/domain/services/user-kakao.service';
 
 @Module({
   imports: [KakaoModule, CqrsModule, DatabaseModule, JwtTokenModule],
@@ -23,6 +24,7 @@ import { UserRoleRepositoryImpl } from '@account/user/infrastructure/persistence
     JwtAuthGuard,
     UserResolver,
     UserService,
+    UserKakaoService,
     CreateUserHandler,
     LoginUserHandler,
     DeleteUserHandler,

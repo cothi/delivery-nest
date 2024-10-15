@@ -23,7 +23,7 @@ model Users {
   updatedAt DateTime  @updatedAt
 
   OAuthProvider OAuthProvider[]
-  Chats         Chats[]
+  Rooms         Rooms[]
   Orders        Orders[]
   Deliveries    Deliveries[]
   UserRoles     UserRoles[]
@@ -74,11 +74,12 @@ model OAuthProvider {
   @@unique([provider, providerId])
 }
 
-model Chats {
+model Rooms {
   id String @id @default(uuid())
 
-  user   Users  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   Users      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
+  status RoomStatus @default(BEFORE)
 
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
@@ -89,12 +90,12 @@ model Chats {
 
 model ChatMessage {
   id        String   @id @default(uuid())
-  chats     Chats    @relation(fields: [chatId], references: [id], onDelete: Cascade)
-  chatId    String
+  room      Rooms    @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  roomId    String
   message   String
   createdAt DateTime @default(now())
 
-  @@index([chatId, createdAt])
+  @@index([roomId, createdAt])
 }
 
 model Orders {
@@ -158,4 +159,10 @@ enum UserRoleType {
   COURIER
   COUNSELOR
   USER
+}
+
+enum RoomStatus {
+  BEFORE
+  PENDING
+  COMPLETE
 }

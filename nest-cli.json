@@ -1,24 +1,6 @@
 {
   "monorepo": true,
   "projects": {
-    "account": {
-      "type": "application",
-      "root": "apps/account",
-      "entryFile": "main",
-      "sourceRoot": "apps/account/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/account/tsconfig.app.json"
-      }
-    },
-    "api-gateway": {
-      "type": "application",
-      "root": "apps/api-gateway",
-      "entryFile": "main",
-      "sourceRoot": "apps/api-gateway/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/api-gateway/tsconfig.app.json"
-      }
-    },
     "decorators": {
       "type": "library",
       "root": "libs/decorators",
@@ -98,6 +80,16 @@
       "sourceRoot": "libs/database/src",
       "compilerOptions": {
         "tsConfigPath": "libs/database/tsconfig.lib.json"
+      }
+    },
+
+    "counsel": {
+      "type": "application",
+      "root": "apps/counsel",
+      "entryFile": "main",
+      "sourceRoot": "apps/counsel/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/counsel/tsconfig.app.json"
       }
     }
   },

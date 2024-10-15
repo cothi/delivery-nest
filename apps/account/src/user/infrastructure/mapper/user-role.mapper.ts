@@ -5,7 +5,6 @@ export class UserRoleMapper {
   static toDomain(data: UserRoles): UserRoleModel {
     return {
       id: data.id,
-      roles: data.roles,
       userId: data.userId,
     };
   }

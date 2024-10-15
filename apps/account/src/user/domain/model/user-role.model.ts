@@ -1,13 +1,11 @@
-import { UserRoles, UserRoleType } from '@prisma/client';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Role } from '@account/user/presentation/dto/req/register-role.input';
 
-export class UserRoleModel implements UserRoles {
+@ObjectType()
+export class UserRoleModel {
+  @Field(() => ID)
   id: string;
 
+  @Field()
   userId: string;
-
-  roles: UserRoleType;
-
-  constructor(data: UserRoleModel) {
-    Object.assign(this, data);
-  }
 }

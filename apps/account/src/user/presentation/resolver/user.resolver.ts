@@ -15,6 +15,9 @@ import { UserModel } from '@account/user/domain/model/user.model';
 import { KakaoAuthObj } from '@account/user/presentation/dto/res/kakao-auth-url.object';
 import { TokenPairObj } from '@account/user/presentation/dto/res/token-pair.object';
 import { CreateUserInput } from '@account/user/presentation/dto/req/create-user.input';
+import { UserRoleModel } from '@account/user/domain/model/user-role.model';
+import { RegisterRoleInput } from '@account/user/presentation/dto/req/register-role.input';
+import { RegisterRoleCommand } from '@account/user/application/commands/register-role.command';
 
 @Resolver(() => UserModel)
 export class UserResolver {
@@ -57,5 +60,15 @@ export class UserResolver {
   async getKakaoAuthUrl(): Promise<KakaoAuthObj> {
     const query = new GetKakaoAuthUrlQuery();
     return await this.queryBus.execute(query);
+  }
+
+  @Mutation(() => UserRoleModel)
+  @UseGuards(JwtAuthGuard)
+  async registerRole(
+    @Args('input') input: RegisterRoleInput,
+    @TokenInfo() payload: JwtPayload,
+  ): Promise<UserRoleModel> {
+    const command = new RegisterRoleCommand(input.role, payload.userId);
+    return await this.commandBus.execute(command);
   }
 }

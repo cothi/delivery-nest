@@ -1,10 +1,10 @@
-import { UserModel } from '@account/user/domain/model/user.model';
 import { UserRoleType } from '@prisma/client';
 import {
   IUserRoleRepository,
   UserRoleRepositorySymbol,
 } from '@account/user/domain/interfaces/user-role-repository.interface';
 import { Inject } from '@nestjs/common';
+import { UserRoleModel } from '@account/user/domain/model/user-role.model';
 
 export class UserRoleService {
   constructor(
@@ -12,16 +12,14 @@ export class UserRoleService {
     private readonly userRoleRepository: IUserRoleRepository,
   ) {}
   async registerRole(
-    user: UserModel,
+    userId: string,
     roleType: UserRoleType,
-  ): Promise<UserModel> {
-    const userRole = await this.userRoleRepository.createRole({
+  ): Promise<UserRoleModel> {
+    return await this.userRoleRepository.createRole({
       data: {
-        userId: user.id,
+        userId,
         roles: roleType,
       },
     });
-    user.roles.push(userRole);
-    return user;
   }
 }
