@@ -16,15 +16,7 @@ export class ChatResolver {
     return msg;
   }
 
-  @Subscription(() => String, {
-    filter: (payload, variables) => {
-      // 필터를 통해 특정 조건에 맞는 메시지만 필터링할 수 있음
-      return true; // 모든 메시지 전달
-    },
-    resolve: (payload) => {
-      return payload.messageAdded; // 메시지 내용 전달
-    },
-  })
+  @Subscription(() => String)
   messageAdded() {
     return pubSub.asyncIterator('messageAdded');
   }
