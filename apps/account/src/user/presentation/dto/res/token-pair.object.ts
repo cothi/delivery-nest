@@ -1,7 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
-export class LoginResponse {
+export class TokenPairObj {
   @Field()
   accessToken: string;
 

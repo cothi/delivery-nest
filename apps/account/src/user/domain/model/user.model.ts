@@ -1,9 +1,9 @@
 import { Field, HideField, ID, ObjectType } from '@nestjs/graphql';
-import { User } from '@prisma/client';
+import { UserRoleModel } from '@account/user/domain/model/user-role.model';
 @ObjectType()
-export class UserModel implements User {
-  @Field()
-  id: string;
+export class UserModel {
+  @Field(() => ID)
+  id?: string;
 
   @Field()
   nickname: string;
@@ -12,33 +12,17 @@ export class UserModel implements User {
   email: string | undefined;
 
   @Field({ nullable: true })
-  birthday: Date | undefined;
+  birthday?: Date | undefined;
 
   @HideField()
   password: string | undefined;
 
   @HideField()
-  createdAt: Date;
+  createdAt?: Date;
 
   @HideField()
-  updatedAt: Date;
+  updatedAt?: Date;
 
-  private constructor(data: Partial<UserModel>) {
-    Object.assign(this, data);
-  }
-  static create(data: Partial<UserModel>) {
-    return new UserModel({ ...data });
-  }
-}
-
-@ObjectType()
-export class UserInfo {
-  @Field(() => ID)
-  id: number;
-
-  @Field()
-  email: string;
-
-  @Field()
-  nickname: string;
+  @Field(() => [UserRoleModel], { nullable: true })
+  roles?: UserRoleModel[];
 }

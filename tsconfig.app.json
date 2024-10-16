@@ -24,6 +24,12 @@
       "@account/*": [
         "apps/account/src/*"
       ],
+      "@counsel": [
+        "apps/counsel/src"
+      ],
+      "@counsel/*": [
+        "apps/counsel/src/*"
+      ],
       "@libs/decorators": [
         "libs/decorators/src"
       ],

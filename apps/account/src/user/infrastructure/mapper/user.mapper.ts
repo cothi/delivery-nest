@@ -1,17 +1,25 @@
 import { UserModel } from '../../domain/model/user.model';
-import { User } from '@prisma/client';
+import { Prisma, Users } from '@prisma/client';
+import { UserRoleMapper } from '@account/user/infrastructure/mapper/user-role.mapper';
 
-export class CreateUserMapper {
-  static toDomain(user: User): UserModel {
+type UserWithRoles = Prisma.UsersGetPayload<{
+  include: {
+    UserRoles: true;
+  };
+}>;
+
+export class UserMapper {
+  static userAndRollToDomain(user: UserWithRoles): UserModel {
+    const roles = user.UserRoles.map((role) => UserRoleMapper.toDomain(role));
     return {
+      roles: roles,
       ...user,
     };
   }
-}
 
-export class UserMapper {
-  static toDomain(user: User): UserModel {
+  static toDomain(user: Users): UserModel {
     return {
+      roles: undefined,
       ...user,
     };
   }

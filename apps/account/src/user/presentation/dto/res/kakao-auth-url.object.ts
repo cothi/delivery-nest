@@ -1,7 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
-export class KakaoAuthUrlDto {
+export class KakaoAuthObj {
   @Field()
   url: string;
 }
